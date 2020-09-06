@@ -8,7 +8,7 @@ float rgbCounter = .0;
 int lastTime = 0;
 
 void setup(){
-
+  surface.setTitle("Robin Bono | 01 - Fundamentals");
   size(768, 432);
   noFill();
 

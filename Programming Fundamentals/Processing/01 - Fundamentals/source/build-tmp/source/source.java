@@ -14,19 +14,24 @@ import java.io.IOException;
 
 public class source extends PApplet {
 
+//Random lerp color function
 int rgb;
 int rgbFrom;
 int rgbTarget;
 float rgbCounter = .0f;
 
+//Delta time
 int lastTime = 0;
 
 public void setup(){
-
+  surface.setTitle("Robin Bono | 01 - Fundamentals");
   
   noFill();
+
+  //If millis() already got some value while loading
   lastTime = millis();
 
+  //Set init color values
   rgbFrom = color(random(255), random(255), random(255));
   rgbTarget = color(random(255), random(255), random(255));
 }
@@ -48,6 +53,7 @@ public void draw(){
   O(376, 306, 13.2f, rgb);
 }
 
+//Letter functions
 public void R(int x, int y, float sW, int col){
 
   strokeWeight( sW );
@@ -94,6 +100,7 @@ public void N(int x, int y, float sW, int col){
   curve( x+-415, y+387, x+-47, y+62, x+5, y+117, x+28, y+-34 );
 }
 
+//Delta time to avoid different results on different computers
 public float DeltaTime(){
   
   int returnValue = 0;
@@ -104,21 +111,23 @@ public float DeltaTime(){
   return (float)returnValue/1000.0f;
 }
 
+//Smooth lerp between colors
 public int randomLerpColor(){
 
   int currentColor = lerpColor(rgbFrom, rgbTarget, rgbCounter);
 
   if( currentColor != rgbTarget){
-
+    //Step through the lerp
     rgbCounter += 0.6f * DeltaTime();
     currentColor = lerpColor(rgbFrom, rgbTarget, rgbCounter);
   } else {
-
+    //Get new target color and reset
     rgbCounter = .0f;
     rgbFrom = rgbTarget;
     rgbTarget = color(random(255), random(255), random(255));
   }
 
+  //Return amazing colors
   return currentColor;
 }
   public void settings() {  size(768, 432); }

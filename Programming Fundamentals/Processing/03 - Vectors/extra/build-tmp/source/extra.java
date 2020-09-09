@@ -12,9 +12,10 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class source extends PApplet {
+public class extra extends PApplet {
 
 MyCircle eliCircle;
+Background bGround;
 
 PVector mouseVec;
 PVector powerVec;
@@ -31,19 +32,27 @@ public void setup(){
   	frameRate(60);
 
   	eliCircle = new MyCircle(100, 100, ballSize);
+  	bGround = new Background(color(255, 255, 255));
 
   	mouseVec = new PVector(mouseX, mouseY);
   	powerVec = new PVector(0, 0);
   	anchorVec = new PVector(0, 0);
+
+  	bGround.SetAltColor(color(255, 199, 78, 150));
 }
 
 public void draw(){
 
-	background(255, 255, 255);
+	bGround.Update();
+	MouseStuff();
+	eliCircle.Update();
+	
+}
+
+
+public void MouseStuff(){
 
 	mouseVec.set(mouseX, mouseY);
-
-	eliCircle.Update();
 }
 
 //Smooth lerp between colors
@@ -67,8 +76,10 @@ class MyCircle{
 
 		if(mousePressed == true){
 
+			// Trace
 			stroke(0, 0, 0, 150);
 			strokeWeight(ballSize);
+			line(vec.x, vec.y, mouseVec.x, mouseVec.y);
 
 			vec.set(mouseVec);
 
@@ -82,9 +93,12 @@ class MyCircle{
 				powerVec.set( PVector.sub(anchorVec, mouseVec) );
 				powerVec.mult(0.1f);
 
+				//Modify distance to better fit with color lerp
+				float modDist;
+				modDist = PVector.dist(mouseVec, anchorVec) / 800;
 				//Anchor line
-				stroke( 0, 0, 0);
-				strokeWeight(5);
+				stroke( LerpColor(modDist));
+				strokeWeight(5 + (modDist * 12.3f));
 				line(anchorVec.x, anchorVec.y, mouseVec.x, mouseVec.y);
 			}
 
@@ -92,7 +106,6 @@ class MyCircle{
 
 			anchorLock = false;
 
-			// Add power to ball
 			vec.add(powerVec);
 		}
 
@@ -100,12 +113,14 @@ class MyCircle{
 		if(vec.x - (cS/2) < 0 || vec.x + (cS/2) > width){
 
 			powerVec.x *= -1;
+			bGround.Trigger();
 		}
 
 		// Check if ball hit walls vertical
 		if(vec.y - (cS/2) < 0 || vec.y + (cS/2) > height){
 
 			powerVec.y *= -1;
+			bGround.Trigger();
 		}
 
 		// Draw ball
@@ -113,10 +128,56 @@ class MyCircle{
 		strokeWeight(1);
 		ellipse(vec.x, vec.y, cS, cS);
 	}
+
+	public float xPos(){
+
+		return vec.x;
+	}
+
+	public float yPos(){
+
+		return vec.y;
+	}	
+}
+
+class Background{
+
+int sBColor;
+int aBColor;
+float c;
+
+	Background(int rgb){
+
+		sBColor = rgb;
+	}
+
+	public void Update(){
+
+		if(c > 0){
+
+			background(lerpColor(sBColor, aBColor, c));
+			c -= 0.1f;
+		} else {
+
+			background(sBColor);
+		}
+		
+		println(c);
+	}
+
+	public void SetAltColor(int rgb){
+
+		aBColor = rgb;
+	}
+
+	public void Trigger(){
+
+		c = 1.1f;
+	}
 }
   public void settings() { 	size(1024, 1024); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "source" };
+    String[] appletArgs = new String[] { "extra" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

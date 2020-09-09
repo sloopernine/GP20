@@ -60,6 +60,7 @@ class MyCircle{
 
 		if(mousePressed == true){
 
+			// Trace
 			stroke(0, 0, 0, 150);
 			strokeWeight(ballSize);
 			line(vec.x, vec.y, mouseVec.x, mouseVec.y);
@@ -73,7 +74,6 @@ class MyCircle{
 				anchorLock = true;
 			} else {
 
-				// Trace
 				powerVec.set( PVector.sub(anchorVec, mouseVec) );
 				powerVec.mult(0.1);
 

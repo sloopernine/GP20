@@ -1,4 +1,5 @@
 MyCircle eliCircle;
+Background bGround;
 
 PVector mouseVec;
 PVector powerVec;
@@ -15,19 +16,27 @@ void setup(){
   	frameRate(60);
 
   	eliCircle = new MyCircle(100, 100, ballSize);
+  	bGround = new Background(color(255, 255, 255));
 
   	mouseVec = new PVector(mouseX, mouseY);
   	powerVec = new PVector(0, 0);
   	anchorVec = new PVector(0, 0);
+
+  	bGround.SetAltColor(color(255, 199, 78, 150));
 }
 
 void draw(){
 
-	background(255, 255, 255);
+	bGround.Update();
+	MouseStuff();
+	eliCircle.Update();
+	
+}
+
+
+void MouseStuff(){
 
 	mouseVec.set(mouseX, mouseY);
-
-	eliCircle.Update();
 }
 
 //Smooth lerp between colors
@@ -53,6 +62,7 @@ class MyCircle{
 
 			stroke(0, 0, 0, 150);
 			strokeWeight(ballSize);
+			line(vec.x, vec.y, mouseVec.x, mouseVec.y);
 
 			vec.set(mouseVec);
 
@@ -63,12 +73,16 @@ class MyCircle{
 				anchorLock = true;
 			} else {
 
+				// Trace
 				powerVec.set( PVector.sub(anchorVec, mouseVec) );
 				powerVec.mult(0.1);
 
+				//Modify distance to better fit with color lerp
+				float modDist;
+				modDist = PVector.dist(mouseVec, anchorVec) / 800;
 				//Anchor line
-				stroke( 0, 0, 0);
-				strokeWeight(5);
+				stroke( LerpColor(modDist));
+				strokeWeight(5 + (modDist * 12.3));
 				line(anchorVec.x, anchorVec.y, mouseVec.x, mouseVec.y);
 			}
 
@@ -76,7 +90,6 @@ class MyCircle{
 
 			anchorLock = false;
 
-			// Add power to ball
 			vec.add(powerVec);
 		}
 
@@ -84,17 +97,65 @@ class MyCircle{
 		if(vec.x - (cS/2) < 0 || vec.x + (cS/2) > width){
 
 			powerVec.x *= -1;
+			bGround.Trigger();
 		}
 
 		// Check if ball hit walls vertical
 		if(vec.y - (cS/2) < 0 || vec.y + (cS/2) > height){
 
 			powerVec.y *= -1;
+			bGround.Trigger();
 		}
 
 		// Draw ball
 		stroke(0, 0, 0);
 		strokeWeight(1);
 		ellipse(vec.x, vec.y, cS, cS);
+	}
+
+	float xPos(){
+
+		return vec.x;
+	}
+
+	float yPos(){
+
+		return vec.y;
+	}	
+}
+
+class Background{
+
+color sBColor;
+color aBColor;
+float c;
+
+	Background(color rgb){
+
+		sBColor = rgb;
+	}
+
+	void Update(){
+
+		if(c > 0){
+
+			background(lerpColor(sBColor, aBColor, c));
+			c -= 0.1;
+		} else {
+
+			background(sBColor);
+		}
+		
+		println(c);
+	}
+
+	void SetAltColor(color rgb){
+
+		aBColor = rgb;
+	}
+
+	void Trigger(){
+
+		c = 1.1;
 	}
 }

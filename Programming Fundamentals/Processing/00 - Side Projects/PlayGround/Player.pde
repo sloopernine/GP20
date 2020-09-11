@@ -4,12 +4,16 @@ class Player{
 	PVector ballVec;
 	PVector powerVec;
 
-	float cS;
+	float bSize;
 
 	Player(int xStartPos, int yStartPos, float ballSize){
 
-		  	powerVec = new PVector(0, 0);
   			anchorVec = new PVector(0, 0);
+  			ballVec = new PVector(xStartPos, yStartPos);
+		  	powerVec = new PVector(0, 0);
+
+		  	bSize = ballSize;
+
 	}
 
 	void Update(){
@@ -50,9 +54,9 @@ class Player{
 		Gravity(isColl);
 
 		// Draw ball
-		stroke(0, 0, 0);
-		strokeWeight(1);
-		ellipse(ballVec.x, ballVec.y, cS, cS);
+		stroke(125, 125, 125);
+		strokeWeight(5);
+		ellipse(ballVec.x, ballVec.y, bSize, bSize);
 	}
 
 	boolean Collisions(){
@@ -60,13 +64,13 @@ class Player{
 		boolean returnValue = false;
 
 		// Check if ball hit walls horizontal
-		if(ballVec.x - (cS/2) < 0 || ballVec.x + (cS/2) > width){
+		if(ballVec.x - (bSize/2) < 0 || ballVec.x + (bSize/2) > width){
 
 			powerVec.x *= -1;
 			returnValue = true;
 		}
 
-		if(ballVec.y - (cS/2) < 0 || ballVec.y + (cS/2) > height){
+		if(ballVec.y - (bSize/2) < 0 || ballVec.y + (bSize/2) > height){
 
 			powerVec.y *= -1;
 			returnValue = true;

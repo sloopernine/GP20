@@ -6,6 +6,8 @@ boolean anchorLock = false;
 
 float ballSize = 50.5;
 
+boolean inMenu = true;
+
 void setup(){
 
 	surface.setTitle("PlayGround");
@@ -19,15 +21,25 @@ void setup(){
 
 void draw(){
 
-	background(255, 255, 255);
+	if(inMenu){
 
-	mouseVec.set(mouseX, mouseY);
+		Menu();
+	} else {
 
-	player.Update();
+		background(255, 255, 255);
+
+		mouseVec.set(mouseX, mouseY);
+
+		player.Update();
+	}
 }
 
 //Smooth lerp between colors
 color LerpColor( float intensity){
   
 	return lerpColor(color(0,255,0,100), color(255,0,0,100), intensity);
+}
+
+void Menu(){
+
 }

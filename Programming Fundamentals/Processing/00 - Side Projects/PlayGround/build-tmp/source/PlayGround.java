@@ -17,9 +17,7 @@ public class PlayGround extends PApplet {
 Player player;
 
 PVector mouseVec;
-PVector powerVec;
 
-PVector anchorVec;
 boolean anchorLock = false;
 
 float ballSize = 50.5f;
@@ -33,8 +31,6 @@ public void setup(){
   	player = new Player(100, 100, ballSize);
 
   	mouseVec = new PVector(mouseX, mouseY);
-  	powerVec = new PVector(0, 0);
-  	anchorVec = new PVector(0, 0);
 }
 
 public void draw(){
@@ -51,16 +47,21 @@ public int LerpColor( float intensity){
   
 	return lerpColor(color(0,255,0,100), color(255,0,0,100), intensity);
 }
-
-
-
 class Player{
 
+	PVector anchorVec;
 	PVector ballVec;
-	float cS;
+	PVector powerVec;
+
+	float bSize;
 
 	Player(int xStartPos, int yStartPos, float ballSize){
 
+  			anchorVec = new PVector(0, 0);
+  			ballVec = new PVector(xStartPos, yStartPos);
+		  	powerVec = new PVector(0, 0);
+
+		  	bSize = ballSize;
 
 	}
 
@@ -102,9 +103,9 @@ class Player{
 		Gravity(isColl);
 
 		// Draw ball
-		stroke(0, 0, 0);
-		strokeWeight(1);
-		ellipse(ballVec.x, ballVec.y, cS, cS);
+		stroke(125, 125, 125);
+		strokeWeight(5);
+		ellipse(ballVec.x, ballVec.y, bSize, bSize);
 	}
 
 	public boolean Collisions(){
@@ -112,13 +113,13 @@ class Player{
 		boolean returnValue = false;
 
 		// Check if ball hit walls horizontal
-		if(ballVec.x - (cS/2) < 0 || ballVec.x + (cS/2) > width){
+		if(ballVec.x - (bSize/2) < 0 || ballVec.x + (bSize/2) > width){
 
 			powerVec.x *= -1;
 			returnValue = true;
 		}
 
-		if(ballVec.y - (cS/2) < 0 || ballVec.y + (cS/2) > height){
+		if(ballVec.y - (bSize/2) < 0 || ballVec.y + (bSize/2) > height){
 
 			powerVec.y *= -1;
 			returnValue = true;

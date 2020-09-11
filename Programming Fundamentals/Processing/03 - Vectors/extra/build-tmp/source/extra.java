@@ -25,8 +25,8 @@ PVector anchorVec;
 boolean anchorLock = false;
 
 float ballSize = 90;
-float rEffect = 20; //Rubber impact effect
-float rRestoreTime = 1.1f; //Rubber restore
+float rEffect = 40; //Rubber impact effect
+float rRestoreTime = 2.5f; //Rubber restore
 
 public void setup(){
 
@@ -111,7 +111,7 @@ class MyBall{
 		}
 
 		//Check if ball hit walls horizontal
-		if(ballVec.x - (bS/2) < 0 || ballVec.x + (bS/2) > width){
+		if(ballVec.x - (bS/2) + rubberVec.x < 0 || ballVec.x + (bS/2) - rubberVec.x > width){
 
 			powerVec.x *= -1;
 			Clash("x");
@@ -119,7 +119,7 @@ class MyBall{
 		}
 
 		//Check if ball hit walls vertical
-		if(ballVec.y - (bS/2) < 0 || ballVec.y + (bS/2) > height){
+		if(ballVec.y - (bS/2) + rubberVec.y < 0 || ballVec.y + (bS/2) - rubberVec.y > height){
 
 			powerVec.y *= -1;
 			Clash("y");

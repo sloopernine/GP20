@@ -1,4 +1,4 @@
-BallClass ball;
+Ball ball;
 
 PVector mouseVec;
 PVector powerVec;
@@ -14,7 +14,7 @@ void setup(){
   	size(1024, 1024);
   	frameRate(60);
 
-  	ball = new BallClass(100, 100, ballSize);
+  	ball = new Ball(100, 100, ballSize);
 
   	mouseVec = new PVector(mouseX, mouseY);
   	powerVec = new PVector(0, 0);
@@ -30,12 +30,12 @@ void draw(){
 	ball.Update();
 }
 
-class BallClass{
+class Ball{
 
 	PVector ballVec;
 	float bS; // Ball size
 
-	BallClass(int xStartPos, int yStartPos, float bSize){
+	Ball(int xStartPos, int yStartPos, float bSize){
 
 		ballVec = new PVector( xStartPos, yStartPos);
 		bS = bSize;

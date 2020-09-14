@@ -1,6 +1,10 @@
 Ball ball;
+Wall wall;
 
 PVector mouseVec;
+
+PVector anchorVec;
+boolean anchorLock = false;
 
 float ballSize = 50.5;
 
@@ -11,9 +15,10 @@ void setup(){
   	frameRate(60);
 
   	ball = new Ball(100, 100, ballSize);
+  	wall = new Wall(500, 0, 40);
 
   	mouseVec = new PVector(mouseX, mouseY);
-
+  	anchorVec = new PVector(0, 0);
 }
 
 void draw(){
@@ -23,24 +28,57 @@ void draw(){
 	mouseVec.set(mouseX, mouseY);
 
 	ball.Update();
+	wall.Update();
+
+	ball.TriggerCollision(wall.Collision(ball.ballVec, ball.powerVec, ball.GetBallSize()));
+}
+
+class Wall{
+
+	int xP;
+	int yP;
+	int wWidth;
+
+	Wall(int xPos, int yPos, int wallWidth){
+
+		xP = xPos;
+		yP = yPos;
+		wWidth = wallWidth;
+	}
+
+	void Update(){
+
+		rect(xP, yP, wWidth, height);
+	}
+
+	int Collision(PVector player, PVector power, float pSize){
+
+		// 0 = no collision
+		// 1 = X axis collision
+		// 2 = Y axis collision
+
+		int returnColl = 0;
+
+		if(player.x + (pSize/2) > xP && player.x - (pSize/2) < xP + wWidth){
+
+			returnColl = 1;
+		}
+
+		return returnColl;
+	}
 }
 
 class Ball{
 
 	PVector ballVec;
 	PVector powerVec;
-	PVector anchorVec;
 
-	boolean anchorLock = false;
-	
 	float bS; // Ball size
 
 	Ball(int xStartPos, int yStartPos, float bSize){
 
 		ballVec = new PVector( xStartPos, yStartPos);
 	  	powerVec = new PVector(0, 0);
-  		anchorVec = new PVector(0, 0);
-
 		bS = bSize;
 	}
 
@@ -89,5 +127,23 @@ class Ball{
 		stroke(0, 0, 0);
 		strokeWeight(6);
 		ellipse(ballVec.x, ballVec.y, bS, bS);
+	}
+
+	void TriggerCollision(int coll){
+
+		if(coll == 1){
+
+			powerVec.x *= -1;
+		}
+
+		if(coll == 2){
+
+			powerVec.y *= -1;
+		}
+	}
+
+	float GetBallSize(){
+
+		return bS;
 	}
 }

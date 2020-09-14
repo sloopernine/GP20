@@ -1,3 +1,5 @@
+ArrayList<Wall[]> walls = new ArrayList<Wall[]>();
+
 Player player;
 
 PVector mouseVec;
@@ -6,7 +8,7 @@ boolean anchorLock = false;
 
 float ballSize = 50.5;
 
-boolean inMenu = true;
+boolean inMenu = false;
 
 void setup(){
 
@@ -42,4 +44,5 @@ color LerpColor( float intensity){
 
 void Menu(){
 
+	background(0, 0, 255);
 }

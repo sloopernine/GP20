@@ -4,6 +4,9 @@ class Player{
 	PVector ballVec;
 	PVector powerVec;
 
+	float airFriction = 0.0001;
+	float colFriction = 0.1;
+
 	float bSize;
 
 	Player(int xStartPos, int yStartPos, float ballSize){
@@ -52,6 +55,7 @@ class Player{
 		boolean isColl;
 		isColl = Collisions();
 		Gravity(isColl);
+		AirFriction(isColl);
 
 		// Draw ball
 		stroke(125, 125, 125);
@@ -63,14 +67,29 @@ class Player{
 
 		boolean returnValue = false;
 
-		// Check if ball hit walls horizontal
-		if(ballVec.x - (bSize/2) < 0 || ballVec.x + (bSize/2) > width){
+		//Left
+		if(ballVec.x - (bSize/2) < 0){
 
 			powerVec.x *= -1;
 			returnValue = true;
 		}
 
-		if(ballVec.y - (bSize/2) < 0 || ballVec.y + (bSize/2) > height){
+		//Right
+		if(ballVec.x + (bSize/2) > width){
+
+			powerVec.x *= -1;
+			returnValue = true;
+		}
+
+		//Top
+		if(ballVec.y - (bSize/2) < 0){
+
+			powerVec.y *= -1;
+			returnValue = true;
+		}
+
+		//Bottom
+		if(ballVec.y + (bSize/2) > height){
 
 			powerVec.y *= -1;
 			returnValue = true;
@@ -85,6 +104,15 @@ class Player{
 
 			powerVec.y += 0.5;
 			println(powerVec.y);
+		}
+	}
+
+	void AirFriction(boolean inCollision){
+
+		if(!inCollision){
+
+			powerVec.y -= (powerVec.y * airFriction);
+			powerVec.x -= (powerVec.x * airFriction);
 		}
 	}
 }

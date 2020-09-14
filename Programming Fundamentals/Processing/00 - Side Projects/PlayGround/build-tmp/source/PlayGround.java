@@ -14,6 +14,8 @@ import java.io.IOException;
 
 public class PlayGround extends PApplet {
 
+ArrayList<Wall[]> walls = new ArrayList<Wall[]>();
+
 Player player;
 
 PVector mouseVec;
@@ -21,6 +23,8 @@ PVector mouseVec;
 boolean anchorLock = false;
 
 float ballSize = 50.5f;
+
+boolean inMenu = false;
 
 public void setup(){
 
@@ -35,11 +39,17 @@ public void setup(){
 
 public void draw(){
 
-	background(255, 255, 255);
+	if(inMenu){
 
-	mouseVec.set(mouseX, mouseY);
+		Menu();
+	} else {
 
-	player.Update();
+		background(255, 255, 255);
+
+		mouseVec.set(mouseX, mouseY);
+
+		player.Update();
+	}
 }
 
 //Smooth lerp between colors
@@ -47,11 +57,19 @@ public int LerpColor( float intensity){
   
 	return lerpColor(color(0,255,0,100), color(255,0,0,100), intensity);
 }
+
+public void Menu(){
+
+	background(0, 0, 255);
+}
 class Player{
 
 	PVector anchorVec;
 	PVector ballVec;
 	PVector powerVec;
+
+	float airFriction = 0.0001f;
+	float colFriction = 0.1f;
 
 	float bSize;
 
@@ -101,6 +119,7 @@ class Player{
 		boolean isColl;
 		isColl = Collisions();
 		Gravity(isColl);
+		AirFriction(isColl);
 
 		// Draw ball
 		stroke(125, 125, 125);
@@ -112,14 +131,29 @@ class Player{
 
 		boolean returnValue = false;
 
-		// Check if ball hit walls horizontal
-		if(ballVec.x - (bSize/2) < 0 || ballVec.x + (bSize/2) > width){
+		//Left
+		if(ballVec.x - (bSize/2) < 0){
 
 			powerVec.x *= -1;
 			returnValue = true;
 		}
 
-		if(ballVec.y - (bSize/2) < 0 || ballVec.y + (bSize/2) > height){
+		//Right
+		if(ballVec.x + (bSize/2) > width){
+
+			powerVec.x *= -1;
+			returnValue = true;
+		}
+
+		//Top
+		if(ballVec.y - (bSize/2) < 0){
+
+			powerVec.y *= -1;
+			returnValue = true;
+		}
+
+		//Bottom
+		if(ballVec.y + (bSize/2) > height){
 
 			powerVec.y *= -1;
 			returnValue = true;
@@ -135,6 +169,31 @@ class Player{
 			powerVec.y += 0.5f;
 			println(powerVec.y);
 		}
+	}
+
+	public void AirFriction(boolean inCollision){
+
+		if(!inCollision){
+
+			powerVec.y -= (powerVec.y * airFriction);
+			powerVec.x -= (powerVec.x * airFriction);
+		}
+	}
+}
+class Wall{
+	
+	int wallWidth = 50;
+
+	int xPos;
+	int yPos;
+	int gStart;
+
+	Wall(){
+	}
+
+	public void Update(){
+
+		
 	}
 }
   public void settings() { 	size(1024, 1024); }

@@ -1,4 +1,4 @@
-MyCircle eliCircle;
+BallClass ball;
 
 PVector mouseVec;
 PVector powerVec;
@@ -14,7 +14,7 @@ void setup(){
   	size(1024, 1024);
   	frameRate(60);
 
-  	eliCircle = new MyCircle(100, 100, ballSize);
+  	ball = new BallClass(100, 100, ballSize);
 
   	mouseVec = new PVector(mouseX, mouseY);
   	powerVec = new PVector(0, 0);
@@ -27,34 +27,25 @@ void draw(){
 
 	mouseVec.set(mouseX, mouseY);
 
-	eliCircle.Update();
+	ball.Update();
 }
 
-//Smooth lerp between colors
-color LerpColor( float intensity){
-  
-	return lerpColor(color(0,255,0,100), color(255,0,0,100), intensity);
-}
+class BallClass{
 
-class MyCircle{
+	PVector ballVec;
+	float bS; // Ball size
 
-	PVector vec;
-	float cS;
+	BallClass(int xStartPos, int yStartPos, float bSize){
 
-	MyCircle(int xStartPos, int yStartPos, float cSize){
-
-		vec = new PVector( xStartPos, yStartPos);
-		cS=cSize;
+		ballVec = new PVector( xStartPos, yStartPos);
+		bS = bSize;
 	}
 
 	void Update(){
 
 		if(mousePressed == true){
 
-			stroke(0, 0, 0, 150);
-			strokeWeight(ballSize);
-
-			vec.set(mouseVec);
+			ballVec.set(mouseVec);
 
 			if(!anchorLock){
 
@@ -66,35 +57,34 @@ class MyCircle{
 				powerVec.set( PVector.sub(anchorVec, mouseVec) );
 				powerVec.mult(0.1);
 
-				//Anchor line
+				// Anchor line
 				stroke( 0, 0, 0);
 				strokeWeight(5);
 				line(anchorVec.x, anchorVec.y, mouseVec.x, mouseVec.y);
 			}
-
 		} else {
 
 			anchorLock = false;
 
 			// Add power to ball
-			vec.add(powerVec);
+			ballVec.add(powerVec);
 		}
 
 		// Check if ball hit walls horizontal
-		if(vec.x - (cS/2) < 0 || vec.x + (cS/2) > width){
+		if(ballVec.x - (bS/2) < 0 || ballVec.x + (bS/2) > width){
 
 			powerVec.x *= -1;
 		}
 
 		// Check if ball hit walls vertical
-		if(vec.y - (cS/2) < 0 || vec.y + (cS/2) > height){
+		if(ballVec.y - (bS/2) < 0 || ballVec.y + (bS/2) > height){
 
 			powerVec.y *= -1;
 		}
 
 		// Draw ball
 		stroke(0, 0, 0);
-		strokeWeight(1);
-		ellipse(vec.x, vec.y, cS, cS);
+		strokeWeight(6);
+		ellipse(ballVec.x, ballVec.y, bS, bS);
 	}
 }

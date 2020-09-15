@@ -22,16 +22,16 @@ PVector mouseVec;
 PVector anchorVec;
 boolean anchorLock = false;
 
-float ballSize = 50.5f;
+float ballSize = 50;
 
 public void setup(){
 
-	surface.setTitle("Robin Bono | 03 - Vectors");
+	surface.setTitle("Robin Bono | 00 - PlayGrounds");
   	
   	frameRate(60);
 
   	ball = new Ball(100, 100, ballSize);
-  	wall = new Wall(500, 0, 40);
+  	wall = new Wall(500, 0, 200, 40);
 
   	mouseVec = new PVector(mouseX, mouseY);
   	anchorVec = new PVector(0, 0);
@@ -46,38 +46,56 @@ public void draw(){
 	ball.Update();
 	wall.Update();
 
-	ball.TriggerCollision(wall.Collision(ball.ballVec, ball.powerVec, ball.GetBallSize()));
+	ball.TriggerCollision(wall.Collision(ball.ballVec, ball.GetBallSize()));
 }
 
 class Wall{
 
 	int xP;
 	int yP;
+	int wLength;
 	int wWidth;
 
-	Wall(int xPos, int yPos, int wallWidth){
+	Wall(int xPos, int yPos, int walllength, int wallWidth){
 
 		xP = xPos;
 		yP = yPos;
+		wLength = walllength;
 		wWidth = wallWidth;
 	}
 
 	public void Update(){
 
-		rect(xP, yP, wWidth, height);
+		rect(xP, yP, wWidth, wLength);
 	}
 
-	public int Collision(PVector player, PVector power, float pSize){
+	public PVector Collision(PVector player, float ballSize){
 
-		// 0 = no collision
-		// 1 = X axis collision
-		// 2 = Y axis collision
+		PVector returnColl = new PVector(0, 0);
 
-		int returnColl = 0;
+		if(player.x + (ballSize/2) > xP && player.x - (ballSize/2) < xP + wWidth &&
+			player.y + (ballSize/2) > yP && player.y + (ballSize/2) < yP + wLength){
 
-		if(player.x + (pSize/2) > xP && player.x - (pSize/2) < xP + wWidth){
+			if(player.x < xP){
 
-			returnColl = 1;
+				returnColl.x = -1;
+				return returnColl;
+			}
+			if(player.x > xP + wWidth){
+
+				returnColl.x = -1;
+				return returnColl;
+			}
+			if(player.y > yP){
+
+				returnColl.y = -1;
+				return returnColl;
+			}
+			if(player.y < yP + wLength){
+
+				returnColl.y = -1;
+				return returnColl;
+			}
 		}
 
 		return returnColl;
@@ -145,14 +163,13 @@ class Ball{
 		ellipse(ballVec.x, ballVec.y, bS, bS);
 	}
 
-	public void TriggerCollision(int coll){
+	public void TriggerCollision(PVector coll){
 
-		if(coll == 1){
+		if(coll.x != 0){
 
 			powerVec.x *= -1;
 		}
-
-		if(coll == 2){
+		if(coll.y != 0){
 
 			powerVec.y *= -1;
 		}

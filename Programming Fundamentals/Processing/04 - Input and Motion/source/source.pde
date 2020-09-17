@@ -1,26 +1,34 @@
-PVector pos;
-PVector vel;
-PVector acc;
+PVector position;
+PVector velocity;
+PVector acceleration;
 
-float maxVelCon = 5.5;
-float velCon = 1;
-float accCon = 8.5;
-float decCon = 10.5;
+float ballSize = 20;
+
+float speed = 60;
+float maxSpeed = 10;
+float accelerationModifier= 0.6;
+float decelerationModifier = 0.1;
 
 float deltaTime;
-long oldTime;
 long currentTime;
+long oldTime;
 
 void setup(){
+
+speed = 80;
+maxSpeed = 10;
+accelerationModifier= 0.5;
+float decelerationModifier = 0.1;
+
 
 	size(1024,768);
   	ellipseMode(CENTER);
 
-	pos = new PVector(width/2, height/2);
-	vel = new PVector(0, 0);
-	acc = new PVector(0, 0);
+	position = new PVector(width/2, height/2);
+	velocity = new PVector(0, 0);
+	acceleration = new PVector(0, 0);
 
-	frameRate(30);
+	frameRate(60);
 
 	currentTime = millis();
 }
@@ -28,68 +36,64 @@ void setup(){
 void draw(){
 
 	currentTime = millis();
-	println("deltaTime: "+deltaTime);
+	deltaTime = (currentTime - oldTime) * 0.001;
+	//println("deltaTime: "+deltaTime);
+
 	background(50, 166, 240);
 
-	if (moveLeft) {
+	ellipse(MoveLogic().x, MoveLogic().y, ballSize, ballSize);
 
-		if(vel.x < 10){
-
-			vel.x -= (velCon * accCon) * deltaTime;
-		}
-	}else if(moveRight){
-
-		if(vel.x < 10){
-
-			vel.x += (velCon * accCon) * deltaTime;
-		}
-	}else{
-
-		if(vel.x > 0.5){
-
-			vel.x -= (velCon * decCon) * deltaTime;
-		}else if( vel.x < -0.5){
-
-			vel.x += (velCon * decCon) * deltaTime;
-		}else{
-
-			vel.x = 0;
-		}
-	}
-
-	if (moveUp) {
-
-		if(vel.y < 10){
-
-			vel.y -= (velCon * accCon) * deltaTime;
-		}
-	}else if(moveDown){
-
-		if(vel.y < 10){
-
-			vel.y += (velCon * accCon) * deltaTime;
-		}
-	}else{
-
-		if(vel.y > 0.5){
-
-			vel.y -= (velCon * decCon) * deltaTime;
-		}else if( vel.y < -0.5){
-
-			vel.y += (velCon * decCon) * deltaTime;
-		}else{
-
-			vel.y = 0;
-		}
-	}
-
-	println("vel.x: "+vel.x);
-	println("vel.x: "+vel.y);
-	pos.x += vel.x;
-	pos.y += vel.y;
-
-	ellipse(pos.x, pos.y, 20, 20);
-
-	deltaTime = (currentTime - oldTime) * 0.001;
+	DebugInfo();
 	oldTime = currentTime;
+}
+
+PVector MoveLogic(){
+
+	acceleration = InputDirection();
+
+	acceleration.mult(accelerationModifier * speed * deltaTime);
+
+	if(acceleration.magSq() == 0){
+
+    	acceleration.x -= velocity.x * decelerationModifier * speed * deltaTime;
+    	acceleration.y -= velocity.y * decelerationModifier * speed * deltaTime;
+	}
+
+	velocity.add(acceleration);
+	velocity.limit(maxSpeed);
+
+	//Velocity.copy() needed, else velocity will change its own value?
+    position.add(velocity.copy().mult(speed * deltaTime));
+
+    //Edge behaviours
+    if(position.x < -1){
+
+    	position.x = width - 1;
+    }
+
+   	if(position.x > width + 1){
+
+    	position.x = 1;
+    }
+
+    if(position.y < (ballSize/2)){
+
+    	position.y = ballSize/2;
+    }
+
+    if(position.y > height - (ballSize/2)){
+
+    	position.y = height - (ballSize/2);
+    }
+
+    return position;
+}
+
+void DebugInfo(){
+
+	textSize(16);
+
+	text("Gravity: "+gravityOn, 10, 30);
+	text("acceleration: "+acceleration, 10, 60);
+	text("velocity: "+velocity, 10, 90);
 }

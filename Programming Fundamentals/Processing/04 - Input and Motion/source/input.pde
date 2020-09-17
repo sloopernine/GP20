@@ -2,42 +2,81 @@ boolean moveLeft;
 boolean moveRight;
 boolean moveUp;
 boolean moveDown;
-boolean keyPress;
 
-//Key pressed, set our variables to true
+boolean gravityOn;
+boolean gravityButtonBlock;
+
 void keyPressed()
 {
+    if (keyCode == LEFT || key == 'a'){
+      moveLeft = true;
+    }
+    else if (keyCode == RIGHT || key == 'd'){
+      moveRight = true;
+    }
 
-	if(keyCode == LEFT || key == 'a'){
+    if (keyCode == UP || key == 'w'){
+      moveUp = true;
+    }
+    else if (keyCode == DOWN || key == 's'){
+      moveDown = true;
+    }
 
-		moveLeft = true;
-	}else if(keyCode == RIGHT || key == 'd'){
+    if(key == 'g' && gravityButtonBlock == false){
 
-		moveRight = true;
-	}else if(keyCode == UP || key == 'w'){
+    	SwitchGravity();
+    	gravityButtonBlock = true;
+    }
+}
 
-		moveUp = true;
-	}else if(keyCode == DOWN || key == 's'){
-
-		moveDown = true;
-	}
- }
-
-//When a key is released, we will set our variable to false
 void keyReleased()
 {
+    if (keyCode == LEFT || key == 'a'){
+      moveLeft = false;
+    }
+    else if (keyCode == RIGHT || key == 'd'){
+      moveRight = false;
+    }
+    if (keyCode == UP || key == 'w'){
+      moveUp = false;
+    }
+    else if (keyCode == DOWN || key == 's'){
+      moveDown = false;
+    }
 
-	if(keyCode == LEFT || key == 'a'){
-		
-		moveLeft = false;
-	}else if(keyCode == RIGHT || key == 'd'){
-		
-		moveRight = false;
-	}else if(keyCode == UP || key == 'w'){
+    if(key == 'g'){
 
-		moveUp = false;
-	}else if(keyCode == DOWN || key == 's'){
+    	gravityButtonBlock = false;
+    }
+}
 
-		moveDown = false;
+PVector InputDirection(){
+
+	PVector dir = new PVector(0, 0);
+
+	if(moveLeft){
+
+		dir.x -= 1;
 	}
+	if(moveRight){
+
+		dir.x += 1;
+	}
+	if(moveUp){
+
+		dir.y -= 1;
+	}
+	if(moveDown){
+
+		dir.y += 1;
+	}
+
+	dir.normalize();
+
+	return dir;
+}
+
+void SwitchGravity(){
+
+	gravityOn = !gravityOn;
 }

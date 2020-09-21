@@ -5,6 +5,7 @@ class Ball
     PVector velocity; //Ball direction
     float size;
     color c;
+    boolean alive;
 
     //Ball Constructor, called when we type new Ball(x, y);
     Ball(color rgb, float mSize, float x, float y)
@@ -20,6 +21,8 @@ class Ball
         velocity = new PVector();
         velocity.x = random(11) - 5;
         velocity.y = random(11) - 5;
+
+        alive = true;
     }
 
     //Update our ball

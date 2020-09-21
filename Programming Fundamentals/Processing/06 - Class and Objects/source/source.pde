@@ -38,10 +38,10 @@ void setup(){
 	for(int i = 0; i < balls.length; i++){
 
 		balls[i] = new Ball(
-			color(random(10, 245), random(10, 245), random(10, 245)),
+			color(random(0, 245), random(0, 245), random(0, 245)),
 			ballSize, 
-			random(0, width), 
-			random(0, height)
+			random(10, width), 
+			random(10, height)
 		);
 	}
 
@@ -54,13 +54,35 @@ void draw(){
 	deltaTime = (currentTime - oldTime) * 0.001;
 	//println("deltaTime: "+deltaTime);
 
-	background(50, 166, 240);
+	if(player.alive){
 
-	player.Update();
+		background(50, 166, 240);
+		player.Update();
+	} else {
+
+		fill(255, 255, 255);
+		stroke(0, 0, 0);
+		textSize(50);
+		text("GAME OVER", width/2-160, height/2);
+		textSize(30);
+		text("Press R to restart", width/2-140, height/2+60);
+	}
 
 	for(int i = 0; i < balls.length; i++){
 
 		balls[i].Update();
+		boolean hit = RoundCollision(
+			player.position.x, 
+			player.position.y, 
+			player.size, 
+			balls[i].position.x,
+			balls[i].position.y,
+			balls[i].size 
+		);
+
+		if(hit){
+			player.alive = false;
+		}
 	}
 
 	oldTime = currentTime;
@@ -74,9 +96,9 @@ void draw(){
 //function will return true (collision) or false (no collision)
 //boolean is the return type
 
-boolean roundCollision(int x1, int y1, int size1, int x2, int y2, int size2)
+boolean RoundCollision(float x1, float y1, float size1, float x2, float y2, float size2)
 {
-  int maxDistance = size1 + size2;
+  float maxDistance = size1 + size2;
 
   //first a quick check to see if we are too far away in x or y direction
   //if we are far away we dont collide so just return false and be done.

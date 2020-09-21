@@ -10,6 +10,8 @@ class Player{
 	float accelerationModifier;
 	float decelerationModifier;
 
+	boolean alive;
+
 	Player(PVector pPosition,float pSize, float pSpeed, float pMaxSpeed, float pAccModifier, float pDecModifier){
 
 		size = pSize;
@@ -18,6 +20,8 @@ class Player{
 		maxSpeed = pMaxSpeed;
 		accelerationModifier = pAccModifier;
 		decelerationModifier = pDecModifier;
+
+		alive = true;
 	}
 
 	void Update(){

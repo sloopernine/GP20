@@ -4,9 +4,9 @@ PVector acceleration;
 
 float ballSize = 20;
 
-float speed = 60;
+float speed = 80;
 float maxSpeed = 10;
-float accelerationModifier= 0.6;
+float accelerationModifier= 0.5;
 float decelerationModifier = 0.1;
 
 float deltaTime;
@@ -14,12 +14,6 @@ long currentTime;
 long oldTime;
 
 void setup(){
-
-speed = 80;
-maxSpeed = 10;
-accelerationModifier= 0.5;
-float decelerationModifier = 0.1;
-
 
 	size(1024,768);
   	ellipseMode(CENTER);

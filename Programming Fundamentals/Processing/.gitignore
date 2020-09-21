@@ -1,0 +1,4 @@
+*/*/build-tmp
+*/*/*.autosave
+*.class
+*.java

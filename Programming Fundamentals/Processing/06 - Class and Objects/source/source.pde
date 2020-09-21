@@ -39,9 +39,9 @@ void setup(){
 
 		balls[i] = new Ball(
 			color(random(0, 245), random(0, 245), random(0, 245)),
-			ballSize, 
-			random(10, width), 
-			random(10, height)
+			random(20, 30), 
+			random(20, width-20), 
+			random(20, height-20)
 		);
 	}
 

@@ -8,7 +8,7 @@ boolean decreaseCellSize = false;
 void keyPressed()
 {
 
-    if(key == 'p' && pauseButtonBlock == false){
+    if(key == 'p' || key == 32 && pauseButtonBlock == false){
 
     	isPaused = !isPaused;
     }

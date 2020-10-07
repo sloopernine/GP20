@@ -6,15 +6,15 @@ class Cell{
 	int xPos;
 	int yPos;
 
-	int cSize;
+	int cellSize;
 	int neighbours;
 
 	Cell(int xPosition, int yPosition, int size){
 
+		cellSize = size;
+
 		xPos = cellSize * xPosition;
 		yPos = cellSize * yPosition;
-
-		cSize = size;
 		alive = false;
 	}
 

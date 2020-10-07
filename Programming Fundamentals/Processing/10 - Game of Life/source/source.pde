@@ -1,10 +1,9 @@
 int cellSize = 5;
+int maxSize = 50;
 int xLength;
 int yLength; 
 
 Cell[][] cells;
-
-boolean pause;
 
 void setup(){
 
@@ -26,9 +25,9 @@ void PrepareArrays(){
 
 			cells[x][y] = new Cell(x, y, cellSize);
 			
-			if(x > 1 && x < xLength - 1 && y > 1 && y < yLength - 1){
+			if(x > 0 && x < xLength - 1 && y > 0 && y < yLength - 1){
 
-				if((int)random(5) == 0){
+				if((int)random(10) == 0){
 
 					cells[x][y].alive = true;
 				}
@@ -41,10 +40,8 @@ void draw(){
 
 	background(50, 166, 240);
 
-	fill(255, 0, 0);
-	text(frameRate, 20, 20);
-
-	checkNeighbours();
+	if(!isPaused)
+		checkNeighbours();
 
 	for(int y = 0; y < yLength; y++){
 	
@@ -57,7 +54,10 @@ void draw(){
 		}	
 	}
 
-	playGod();
+	if(!isPaused)
+		playGod();
+
+	ChangeSettings();
 }
 
 void checkNeighbours(){
@@ -142,5 +142,44 @@ void playGod(){
 			cells[x][y].alive = cells[x][y].nextAliveState;
 			cells[x][y].neighbours = 0;
 		}	
+	}
+}
+
+void ChangeSettings(){
+
+	if(isPaused){
+
+		textSize(32);
+		textAlign(CENTER);
+		fill(0, 0, 0);
+		text("Press P to unpause", width/2, height/2);
+		text("Cell Size: " + cellSize, width/2, height/2+60);
+
+		if(doReset){
+
+			PrepareArrays();
+
+			doReset = false;
+		}
+
+		if(increaseCellSize && cellSize < maxSize){
+
+			cellSize++;
+			PrepareArrays();
+			increaseCellSize = false;
+		}
+
+		if(decreaseCellSize && cellSize > 1){
+
+			cellSize--;
+			PrepareArrays();
+			decreaseCellSize = false;
+		}		
+	} else {
+
+		textSize(30);
+		textAlign(LEFT);
+		fill(255, 0, 0);
+		text(frameRate, 20, 60);
 	}
 }

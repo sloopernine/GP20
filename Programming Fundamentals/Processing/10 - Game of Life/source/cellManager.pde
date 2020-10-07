@@ -13,7 +13,9 @@ class CellManager{
 
 	void update(){
 
-		if(isPaused){
+		if(isPaused || drawMode){
+
+			// TODO ADD DRAW MODE HERE SOMEWHERE
 
 			for(int y = 0; y < yLength; y++){
 		
@@ -72,6 +74,9 @@ class CellManager{
 
 		if(x > 0 && x < xLength - 1 && y > 0 && y < yLength - 1){
 
+			// TODO TRY TO REMOVE IF STATEMENTS BY CHANGING ALIVE BOOL TO INT
+			// ALSO TRY TO ONLY CHECK DEAD CELLS AROUND ALIVE CELLS TO DETERMINE IF THEY ARE ALOWED TO SPAWN
+
 			if(cells[x - 1][y - 1].alive){
 
 				cells[x][y].neighbours++;
@@ -114,6 +119,7 @@ class CellManager{
 		}
 	}
 
+	// TODO CHANGE THIS FUNCTION NAME TO SOMETHING BETTER
 	void playGod(){
 
 		for(int y = 1; y < yLength-1; y++){

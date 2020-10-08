@@ -4,7 +4,8 @@ class CellManager{
 
 	int cellSize = 5;
 	int xLength;
-	int yLength; 
+	int yLength;
+	int fillValue = 5; 
 
 	CellManager(){
 
@@ -72,7 +73,7 @@ class CellManager{
 				
 				if(x > 0 && x < xLength - 1 && y > 0 && y < yLength - 1){
 
-					if((int)random(5) == 0){
+					if((int)random(fillValue) == 0){
 
 						cells[x][y].alive = true;
 					}

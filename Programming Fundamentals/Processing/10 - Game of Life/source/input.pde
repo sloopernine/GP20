@@ -9,6 +9,9 @@ boolean drawMode = false;
 boolean frameRateMode = false;
 boolean frameRateModeBlock;
 
+boolean increaseFillValue;
+boolean decreaseFillValue;
+
 void keyPressed()
 {
 
@@ -61,5 +64,14 @@ void keyReleased()
 	else if (key == 's'){
 
 		decreaseCellSize = true;
+	}
+
+	if (key == 'q'){
+
+		decreaseFillValue = true;
+	}
+	else if (key == 'e'){
+
+		increaseFillValue = true;
 	}
 }

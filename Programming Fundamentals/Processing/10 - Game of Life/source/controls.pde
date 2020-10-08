@@ -9,10 +9,13 @@ void ChangeSettings(){
 		text("Press R to randomize", width/2, height/2+60);
 		text("Press W or S to change cell size", width/2, height/2+120);
 		text("Cell Size: " + cellManager.cellSize, width/2, height/2+180);
-		text("Press E to turn effects on/off", width/2, height/2+240);
+		text("Press Q or E to change fill value", width/2, height/2+240);
+		text("Fill value: " + 100/cellManager.fillValue + "%", width/2, height/2+300);
+
+		//text("Press E to turn effects on/off", width/2, height/2+240);
 
 
-		text("Hold D to draw with RMB, erase LMB while simulation run", width/2, height/2+380);
+		text("Hold D to draw with RMB, erase LMB while simulation run", width/2, height/2+440);
 
 		if(doReset){
 
@@ -33,7 +36,24 @@ void ChangeSettings(){
 			cellManager.cellSize--;
 			cellManager.prepareArray();
 			decreaseCellSize = false;
-		}		
+		}
+
+		if(decreaseFillValue && cellManager.fillValue < 10){
+
+			cellManager.fillValue++;
+			cellManager.prepareArray();
+			decreaseFillValue = false;
+		}
+
+		if(increaseFillValue && cellManager.fillValue > 1){
+
+			cellManager.fillValue--;
+			cellManager.prepareArray();
+			increaseFillValue = false;
+		} else if(increaseFillValue && cellManager.fillValue == 1){
+
+			increaseFillValue = false;
+		}
 	}
 
 	if(frameRateMode){

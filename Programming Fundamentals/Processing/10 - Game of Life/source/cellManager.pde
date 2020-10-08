@@ -15,11 +15,22 @@ class CellManager{
 
 		if(isPaused || drawMode){
 
-			// TODO ADD DRAW MODE HERE SOMEWHERE
-
 			for(int y = 0; y < yLength; y++){
 		
 				for(int x = 0; x < xLength; x++){
+
+					if(drawMode){
+
+						if(mouseButton == LEFT){
+
+							cells[mouseX/cellSize][mouseY/cellSize].alive = true;
+						}
+
+						if(mouseButton == RIGHT){
+
+							cells[mouseX/cellSize][mouseY/cellSize].alive = false;
+						}
+					}
 
 					if(cells[x][y].alive){
 

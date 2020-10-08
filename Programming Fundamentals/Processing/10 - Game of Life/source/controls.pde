@@ -11,6 +11,7 @@ void ChangeSettings(){
 		text("Cell Size: " + cellManager.cellSize, width/2, height/2+180);
 		text("Press Q or E to change fill value", width/2, height/2+240);
 		text("Fill value: " + 100/cellManager.fillValue + "%", width/2, height/2+300);
+		text("Press F to toggle frame rate counter", width/2, height/2+360);
 
 		//text("Press E to turn effects on/off", width/2, height/2+240);
 
@@ -54,6 +55,13 @@ void ChangeSettings(){
 
 			increaseFillValue = false;
 		}
+	} else {
+
+		doReset = false;
+		increaseCellSize = false;
+		decreaseCellSize = false;
+		increaseFillValue = false;
+		decreaseFillValue = false;
 	}
 
 	if(frameRateMode){

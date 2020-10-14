@@ -1,1 +1,1 @@
-<img src="screen1" alt="There is no alt">
+<img src="screen1.jpg" alt="There is no alt">

@@ -46,6 +46,8 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+# Should this be included?
+*EditorUserSettings.asset
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -73,3 +75,4 @@ crashlytics-build.properties
 
 # Dirs
 */Library/
+*/Temp/

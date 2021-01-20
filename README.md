@@ -1,4 +1,4 @@
-## Game Programing
+## Programming Fundamentals
 ### Shooter project
 <img src="shooter.gif" alt="There is no alt">
 

@@ -148,6 +148,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.Omnick.SaveGame
     Standalone: com.Omnick.SaveGame
+    iPhone: com.Omnick.SaveGame
   buildNumber:
     Standalone: 0
     iPhone: 0

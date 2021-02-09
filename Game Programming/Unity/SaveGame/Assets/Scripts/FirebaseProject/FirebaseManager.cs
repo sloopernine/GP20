@@ -8,9 +8,9 @@ using Firebase.Extensions;
 
 namespace FirebaseProject
 {
-    public class DataManager : MonoBehaviour
+    public class FirebaseManager : MonoBehaviour
     {
-        public static DataManager instance;
+        public static FirebaseManager instance;
 
         private void Awake()
         {
@@ -54,9 +54,19 @@ namespace FirebaseProject
             yield return new WaitUntil(() => regTask.IsCompleted);
 
             if (regTask.Exception != null)
-                Debug.LogWarning(regTask.Exception);
+            {
+                string message = regTask.Exception.ToString();
+                Debug.Log("Message: " + message);
+                if (message.Contains("The email address is already in use by another account"))
+                {
+                    MainMenu.instance.ShowEmailExistWindow();
+                }
+            }
             else
+            {
                 Debug.Log("Registration Complete");
+                MainMenu.instance.ShowRegisterSuccessWindow();
+            }
         }
 
         private IEnumerator SignIn(string email, string password)
@@ -69,7 +79,7 @@ namespace FirebaseProject
             if (loginTask.Exception != null)
                 Debug.LogWarning(loginTask.Exception);
             else
-                Debug.Log("login completed");
+                MainMenu.instance.ShowPlayerSettingsWindow();
 
             StartCoroutine(DataTest(FirebaseAuth.DefaultInstance.CurrentUser.UserId, "TestWrite"));
         }

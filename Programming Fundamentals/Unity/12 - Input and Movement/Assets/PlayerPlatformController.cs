@@ -23,7 +23,7 @@ public class PlayerPlatformController : MonoBehaviour
     private bool ballInsideTrigger = false;
 
     Vector2 movement = new Vector2();
-
+    
     void Start() {
 
         rb2d = GetComponent<Rigidbody2D>();

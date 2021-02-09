@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "159142576854",
+    "firebase_url": "https://gp20-5d209-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gp20-5d209",
+    "storage_bucket": "gp20-5d209.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159142576854:android:b5bc583177137bae163f77",
+        "android_client_info": {
+          "package_name": "com.Omnick.SaveGame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159142576854-mj9o8qd96skt5ht4j11d8emve0l8otsp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt555aRI7NCzABCmfq_tsvuv84J5mG65I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159142576854-mj9o8qd96skt5ht4j11d8emve0l8otsp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
